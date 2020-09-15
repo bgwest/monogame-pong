@@ -64,7 +64,7 @@ namespace monogame_pong
 
             base.Update(gameTime);
         }
-
+        // test
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
