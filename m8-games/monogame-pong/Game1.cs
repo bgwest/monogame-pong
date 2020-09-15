@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace monogame_pong
 {
-    public class Game1 : Game
+    public class MonogamePong : Game
     {
         Texture2D ballTexture;
         Vector2 ballPosition;
@@ -13,7 +13,7 @@ namespace monogame_pong
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        public MonogamePong()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -40,6 +40,8 @@ namespace monogame_pong
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            // handle keyboard movement
+
             var kstate = Keyboard.GetState();
 
             if (kstate.IsKeyDown(Keys.Up))
@@ -62,9 +64,31 @@ namespace monogame_pong
                 ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
+            // handle out of boundaries
+
+            if (ballPosition.X > _graphics.PreferredBackBufferWidth - ballTexture.Width / 2)
+            {
+                ballPosition.X = _graphics.PreferredBackBufferWidth - ballTexture.Width / 2;
+            }
+
+            if (ballPosition.X < ballTexture.Width / 2)
+            {
+                ballPosition.X = ballTexture.Width / 2;
+            }
+
+            if (ballPosition.Y > _graphics.PreferredBackBufferHeight - ballTexture.Height /2)
+            {
+                ballPosition.Y = _graphics.PreferredBackBufferHeight - ballTexture.Height / 2;
+            }
+
+            if (ballPosition.Y < ballTexture.Height /2)
+            {
+                ballPosition.Y = ballTexture.Height / 2;
+            }
+
             base.Update(gameTime);
         }
-        // test
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
